@@ -1,0 +1,27 @@
+{
+  "name": "yelpcamp",
+  "version": "1.0.0",
+  "description": "YelpCamp Website",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mamenesia/yelpcamp.git"
+  },
+  "keywords": [
+    "yelpcamp"
+  ],
+  "author": "Dedy Prasetyo Hermawan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mamenesia/yelpcamp/issues"
+  },
+  "homepage": "https://github.com/mamenesia/yelpcamp#readme",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4"
+  }
+}
