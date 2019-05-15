@@ -13,6 +13,16 @@ app.set("view engine", "ejs");
 let campgrounds = [
   { name : "Salmon Creek", image: "https://cdn2.howtostartanllc.com/images/business-ideas/business-idea-images/Campground.jpg"},
   { name : "Granite Hill", image: "https://pickininthepines.org/wp-content/uploads/2013/01/Campground-Tents-6.jpeg"},
+  { name : "Salmon Creek", image: "https://cdn2.howtostartanllc.com/images/business-ideas/business-idea-images/Campground.jpg"},
+  { name : "Granite Hill", image: "https://pickininthepines.org/wp-content/uploads/2013/01/Campground-Tents-6.jpeg"},
+  { name : "Salmon Creek", image: "https://cdn2.howtostartanllc.com/images/business-ideas/business-idea-images/Campground.jpg"},
+  { name : "Granite Hill", image: "https://pickininthepines.org/wp-content/uploads/2013/01/Campground-Tents-6.jpeg"},
+  { name : "Salmon Creek", image: "https://cdn2.howtostartanllc.com/images/business-ideas/business-idea-images/Campground.jpg"},
+  { name : "Granite Hill", image: "https://pickininthepines.org/wp-content/uploads/2013/01/Campground-Tents-6.jpeg"},
+  { name : "Salmon Creek", image: "https://cdn2.howtostartanllc.com/images/business-ideas/business-idea-images/Campground.jpg"},
+  { name : "Granite Hill", image: "https://pickininthepines.org/wp-content/uploads/2013/01/Campground-Tents-6.jpeg"},
+  { name : "Salmon Creek", image: "https://cdn2.howtostartanllc.com/images/business-ideas/business-idea-images/Campground.jpg"},
+  { name : "Granite Hill", image: "https://pickininthepines.org/wp-content/uploads/2013/01/Campground-Tents-6.jpeg"},
   { name : "Mountain Gold", image: "https://media-cdn.tripadvisor.com/media/photo-s/09/22/fa/f5/mount-desert-campground.jpg"}
 ];
 
