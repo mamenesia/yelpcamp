@@ -1,47 +1,69 @@
 require('dotenv').config();
 
-const express = require("express"),
-      ejs     = require("ejs"),
-      bodyParser = require("body-parser");
+const express     = require("express"),
+      ejs         = require("ejs"),
+      bodyParser  = require("body-parser"),
+      mongoose    = require("mongoose");
 
 const app = express();
 
+mongoose.connect(process.env.DB_URL, {useNewUrlParser: true});
 app.use(bodyParser.urlencoded({extended: true}));
-
 app.set("view engine", "ejs");
 
-let campgrounds = [
-  { name : "Salmon Creek", image: "https://cdn2.howtostartanllc.com/images/business-ideas/business-idea-images/Campground.jpg"},
-  { name : "Granite Hill", image: "https://pickininthepines.org/wp-content/uploads/2013/01/Campground-Tents-6.jpeg"},
-  { name : "Mountain Gold", image: "https://media-cdn.tripadvisor.com/media/photo-s/09/22/fa/f5/mount-desert-campground.jpg"},
-  { name : "Salmon Creek", image: "https://cdn2.howtostartanllc.com/images/business-ideas/business-idea-images/Campground.jpg"},
-  { name : "Granite Hill", image: "https://pickininthepines.org/wp-content/uploads/2013/01/Campground-Tents-6.jpeg"},
-  { name : "Mountain Gold", image: "https://media-cdn.tripadvisor.com/media/photo-s/09/22/fa/f5/mount-desert-campground.jpg"},
-  { name : "Salmon Creek", image: "https://cdn2.howtostartanllc.com/images/business-ideas/business-idea-images/Campground.jpg"},
-  { name : "Granite Hill", image: "https://pickininthepines.org/wp-content/uploads/2013/01/Campground-Tents-6.jpeg"},
-  { name : "Mountain Gold", image: "https://media-cdn.tripadvisor.com/media/photo-s/09/22/fa/f5/mount-desert-campground.jpg"}
-];
+
+// SCHEMA SETUP
+const campgroundSchema = new mongoose.Schema({
+  name: String,
+  image: String,
+  description: String
+});
+
+const Campground = mongoose.model("Campground", campgroundSchema);
 
 app.get("/", (req, res) => {
   res.render("landing");
 });
 
 app.get("/campgrounds", (req, res) => {
-  res.render("campgrounds", {campgrounds:campgrounds});
+  // Get all campground from DB
+  Campground.find({}, (err, allCampgrounds) => {
+    if(err) {
+      console.log(err)
+    } else {
+      res.render("index", {campgrounds: allCampgrounds});
+    }
+  });
+  
 });
 
 app.post("/campgrounds", (req, res) => {
   let name = req.body.name,
       image = req.body.image,
-      newCampground = {name: name, image: image};
+      desc = req.body.description,
+      newCampground = {name: name, image: image, description: desc};
   
-  campgrounds.push(newCampground);
-
-  res.redirect("/campgrounds");
+  Campground.create(newCampground, (err, campground) => {
+    if(err) {
+      console.log(err);
+    } else {
+      res.redirect("/campgrounds");
+    }
+  });
 });
 
 app.get("/campgrounds/new", (req, res) => {
   res.render("new");
+});
+
+app.get("/campgrounds/:id", (req, res) => {
+  Campground.findById(req.params.id, (err, foundCampground) => {
+    if(err) {
+      console.log(err);
+    } else {
+      res.render("show", {campground: foundCampground});
+    }
+  });
 });
 
 
