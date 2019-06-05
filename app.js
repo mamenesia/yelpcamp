@@ -6,8 +6,11 @@ const express     = require("express"),
       mongoose    = require("mongoose"),
       Campground  = require('./models/campground');
       Comment     = require('./models/comment'),
-      User        = require('./models/user');
+      User        = require('./models/user'),
+      seedDB      = require('./seed');
 
+
+// seedDB();
 const app = express();
 
 mongoose.connect(process.env.DB_URL, {useNewUrlParser: true});
@@ -25,7 +28,7 @@ app.get("/campgrounds", (req, res) => {
     if(err) {
       console.log(err)
     } else {
-      res.render("index", {campgrounds: allCampgrounds});
+      res.render("campgrounds/index", {campgrounds: allCampgrounds});
     }
   });
   
@@ -47,21 +50,52 @@ app.post("/campgrounds", (req, res) => {
 });
 
 app.get("/campgrounds/new", (req, res) => {
-  res.render("new");
+  res.render("campgrounds/new");
 });
 
 app.get("/campgrounds/:id", (req, res) => {
-  Campground.findById(req.params.id, (err, foundCampground) => {
+  Campground.findById(req.params.id).populate("comments").exec((err, foundCampground) => {
     if(err) {
       console.log(err);
     } else {
-      res.render("show", {campground: foundCampground});
+      res.render("campgrounds/show", {campground: foundCampground});
     }
   });
 });
 
+// COMMENTS ROUTE
 
+app.get("/campgrounds/:id/comments/new", (req, res) => {
+  Campground.findById(req.params.id, (err, campground) => {
+    if(err) {
+      console.log(err);
+    } else {
 
+      res.render("comments/new", {campground: campground});
+    }
+  });
+});
+
+app.post("/campgrounds/:id/comments", (req, res) => {
+  Campground.findById(req.params.id, (err, campground) => {
+    if(err) {
+      console.log(err);
+      res.redirect("/campgrounds");
+    } else {
+      Comment.create(req.body.comment, (err, comment) => {
+        if(err) {
+          console.log(err)
+        } else {
+          campground.comments.push(comment);
+          campground.save();
+          res.redirect("/campgrounds/" + campground._id);
+        }
+      })
+    }
+  });
+});
+
+// APP LISTENING
 app.listen(process.env.PORT, function() {
   console.log("YelpCamp server is started!");
 });
