@@ -16,6 +16,7 @@ const app = express();
 mongoose.connect(process.env.DB_URL, {useNewUrlParser: true});
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
+app.use(express.static(__dirname + "/public"));
 
 
 app.get("/", (req, res) => {
